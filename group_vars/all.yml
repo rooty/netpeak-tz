@@ -34,10 +34,10 @@ php_soap_wsdl_cache_dir: '/php/cache/wsdl'
 php_timezone: "UTC"
 php_upload_max_filesize: "20M"
 php_upload_tmp_dir: "/php/cache/upload_tmp"
-
+session.save_path: /tmp
 # Note: we need use 'www-data' on Debian 8.
-php_owner: 'nginx'
-php_group: 'nginx'
+php_owner: 'php-fpm'
+php_group: 'php-fpm'
 
 ##########
 # CentOS #
@@ -57,6 +57,7 @@ yum_php_packages:
   - php{{ yum_php_version }}-bcmath
   - php{{ yum_php_version }}-pecl-amqp
   - php{{ yum_php_version }}-mcrypt
+  - php{{ yum_php_version }}-json
 
 # PHP-FPM FastCGI.
 centos_php_fastcgi_listen: "/run/php-fpm/www.sock"
@@ -88,7 +89,7 @@ nginx_remove_default_vhost: true
 nginx_vhosts:
   - listen: "80 default_server"
     server_name: "_"
-    root: "/var/www/html"
+    root: "/usr/share/nginx/html/"
     index: "index.php index.html index.htm"
     state: "present"
     template: "{{ nginx_vhost_template }}"
@@ -100,7 +101,7 @@ nginx_vhosts:
         location ~ ^/phpmyadmin/(.+\.php)$ {
           try_files $uri =404;
           root /usr/share/;
-          fastcgi_pass unix:/run/php-fpm/www.sock";
+          fastcgi_pass unix:/run/php-fpm/www.sock;
           fastcgi_index index.php;
           fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
           include /etc/nginx/fastcgi_params;
@@ -111,7 +112,7 @@ nginx_vhosts:
       }
       location ~ \.php$ {
           fastcgi_split_path_info ^(.+\.php)(/.+)$;
-          fastcgi_pass unix:/run/php-fpm/www.sock";
+          fastcgi_pass unix:/run/php-fpm/www.sock;
           fastcgi_index index.php;
           fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
           include fastcgi_params;

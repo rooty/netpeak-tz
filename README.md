@@ -39,3 +39,14 @@ make deploy
 ```
 ansible-playbook -i inventory setup.yml
 ```
+
+После деплоя можно проверить работу mysql, redis, nginx+php, phpmyadmin
+
+Для проверки phpmyadmin можно запросить
+```
+links http://localhost/phpmyadmin
+```
+или использовать внешний адрес сервера
+```
+links http://<server-ip>/phpmyadmin
+```
