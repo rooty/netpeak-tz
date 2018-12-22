@@ -1,0 +1,16 @@
+-
+  src: rooty.redis
+  path: roles/
+-
+  src: rooty.mysql
+  path: roles/
+-
+  src: geerlingguy.nginx
+  path: roles/
+-
+  src: chusiang.php7
+  path: roles/
+-
+  src: rooty.phpmyadmin
+  path: roles/
+

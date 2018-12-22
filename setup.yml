@@ -1,0 +1,8 @@
+- hosts: all
+  roles:
+    - rooty.redis
+    - rooty.mysql
+    - { role: geerlingguy.nginx }
+    - chusiang.php7
+    - rooty.phpmyadmin
+    
